@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.NetworkUtils;
 
 public class FetchMoviesTask extends AsyncTask<String, Void, String> {
@@ -42,7 +44,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String jsonResponse) {
-        List<String> movieURLs = new ArrayList<String>();
+        ArrayList<Movie> movieList = new ArrayList<>();
         try {
             if(jsonResponse!=null) {
                 JSONObject baseObject = new JSONObject(jsonResponse);
@@ -50,9 +52,18 @@ public class FetchMoviesTask extends AsyncTask<String, Void, String> {
                 for (int i = 0; i <moviesArray.length() ; i++) {
                     JSONObject movieObject = (JSONObject) moviesArray.get(i);
                     String imageURL = "http://image.tmdb.org/t/p/w185" + movieObject.getString("poster_path");
-                    movieURLs.add(imageURL);
+                    movieList.add(
+                            i,
+                            new Movie(
+                                    movieObject.getString("original_title"),
+                                    imageURL,
+                                    movieObject.getString("overview"),
+                                    movieObject.getDouble("vote_average"),
+                                    movieObject.getString("release_date")
+                            )
+                    );
                 }
-                moviesInterface.getMovies(movieURLs.toArray(new String[movieURLs.size()]));
+                moviesInterface.getMovies(movieList);
             } else {
                 moviesInterface.getMovies(null);
             }

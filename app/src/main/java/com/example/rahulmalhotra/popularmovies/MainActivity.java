@@ -1,34 +1,59 @@
 package com.example.rahulmalhotra.popularmovies;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.ImageAdapter;
+import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MoviesInterface{
 
+    private ArrayList<Movie> moviesList;
+
     @BindView(R.id.moviesView) GridView moviesView;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("movies", moviesList);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+            getApiResponse("popular.desc");
+        } else {
+            moviesList = savedInstanceState.getParcelableArrayList("movies");
+        }
         ButterKnife.bind(this);
-        getApiResponse("popular.desc");
+        moviesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), MovieDetail.class);
+                intent.putExtra("movie", moviesList.get(i));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -57,17 +82,24 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
         new FetchMoviesTask(this).execute(sortyBy);
     }
 
-    private void setMoviesView(String[] movies) {
-        ImageAdapter imageAdapter = new ImageAdapter(this, movies);
+    private void setMoviesView() {
+        ImageAdapter imageAdapter = new ImageAdapter(this, moviesList);
         imageAdapter.notifyDataSetChanged();
         moviesView.setAdapter(imageAdapter);
     }
 
     @Override
-    public void getMovies(String[] movies) {
+    public void getMovies(ArrayList<Movie> movies) {
         if(movies==null) {
             Toast.makeText(this, "No response from server", Toast.LENGTH_SHORT).show();
         }
-        setMoviesView(movies);
+        if(this.moviesList==null) {
+            this.moviesList = movies;
+            setMoviesView();
+        } else {
+            Log.d("change", "movies list changed");
+            this.moviesList.clear();
+            this.moviesList.addAll(movies);
+        }
     }
 }
