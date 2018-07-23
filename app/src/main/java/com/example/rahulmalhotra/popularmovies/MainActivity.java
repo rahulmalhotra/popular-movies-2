@@ -40,18 +40,21 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        moviesList = new ArrayList<>();
         if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
             getApiResponse("popular.desc");
         } else {
-            moviesList = savedInstanceState.getParcelableArrayList("movies");
+            moviesList.clear();
+            moviesList.addAll(savedInstanceState.<Movie>getParcelableArrayList("movies"));
+            setMoviesView();
         }
-        ButterKnife.bind(this);
         moviesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), MovieDetail.class);
-                intent.putExtra("movie", moviesList.get(i));
-                startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), MovieDetail.class);
+            intent.putExtra("movie", moviesList.get(i));
+            startActivity(intent);
             }
         });
     }
@@ -92,14 +95,10 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
     public void getMovies(ArrayList<Movie> movies) {
         if(movies==null) {
             Toast.makeText(this, "No response from server", Toast.LENGTH_SHORT).show();
-        }
-        if(this.moviesList==null) {
-            this.moviesList = movies;
-            setMoviesView();
         } else {
-            Log.d("change", "movies list changed");
-            this.moviesList.clear();
-            this.moviesList.addAll(movies);
+            moviesList.clear();
+            moviesList.addAll(movies);
+            setMoviesView();
         }
     }
 }
