@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         moviesList = new ArrayList<>();
+        setMoviesView();
         if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
             getApiResponse("popular.desc");
         } else {
             moviesList.clear();
             moviesList.addAll(savedInstanceState.<Movie>getParcelableArrayList("movies"));
-            setMoviesView();
         }
         moviesView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
         } else {
             moviesList.clear();
             moviesList.addAll(movies);
-            setMoviesView();
         }
     }
 }
