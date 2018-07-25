@@ -1,9 +1,6 @@
 package com.example.rahulmalhotra.popularmovies;
 
 import android.os.AsyncTask;
-import android.util.JsonWriter;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +9,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.NetworkUtils;

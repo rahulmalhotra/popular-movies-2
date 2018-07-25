@@ -1,4 +1,10 @@
 <resources>
-    <string name="api_key"></string>
     <string name="app_name">Popular Movies</string>
+    <string name="releaseDate">Release Date</string>
+    <string name="movieTitle">Movie Title</string>
+    <string name="userRating">User Rating</string>
+    <string name="movieDescription">Movie Description</string>
+    <string name="movieImage">Movie Image</string>
+    <string name="sortByMostPopular">Sort By Most Popular</string>
+    <string name="sortByTopRated">Sort By Top Rated</string>
 </resources>

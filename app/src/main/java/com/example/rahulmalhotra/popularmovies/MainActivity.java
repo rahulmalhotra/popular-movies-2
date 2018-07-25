@@ -10,15 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.ImageAdapter;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -82,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
 
     private void getApiResponse(String sortyBy){
         Log.d("sorting by:- ", sortyBy);
-        new FetchMoviesTask(this).execute(sortyBy);
+        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(this);
+        if(fetchMoviesTask!=null)
+            fetchMoviesTask.execute(sortyBy);
     }
 
     private void setMoviesView() {

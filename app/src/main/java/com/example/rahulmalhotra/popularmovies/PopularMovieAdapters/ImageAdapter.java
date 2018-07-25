@@ -1,21 +1,15 @@
 package com.example.rahulmalhotra.popularmovies.PopularMovieAdapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.example.rahulmalhotra.popularmovies.MovieDetail;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
 

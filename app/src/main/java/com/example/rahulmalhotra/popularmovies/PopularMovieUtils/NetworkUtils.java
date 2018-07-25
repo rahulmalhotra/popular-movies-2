@@ -1,10 +1,6 @@
 package com.example.rahulmalhotra.popularmovies.PopularMovieUtils;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
-
-import com.example.rahulmalhotra.popularmovies.R;
 
 import java.io.IOException;
 import java.io.InputStream;

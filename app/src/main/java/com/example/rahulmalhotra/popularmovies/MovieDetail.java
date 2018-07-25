@@ -2,7 +2,6 @@ package com.example.rahulmalhotra.popularmovies;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ public class MovieDetail extends AppCompatActivity {
     @BindView(R.id.movieDescription)
     TextView movieDescription;
 
-    Movie movie;
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
