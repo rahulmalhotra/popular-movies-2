@@ -1,9 +1,11 @@
 package com.example.rahulmalhotra.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,7 +40,10 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
         ButterKnife.bind(this);
         moviesList = new ArrayList<>();
         if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
-            getApiResponse("popular.desc");
+            if(checkNetworkConnection())
+                getApiResponse("popular");
+            else
+                Toast.makeText(this, "Network Connection not available", Toast.LENGTH_SHORT).show();
         } else {
             moviesList.clear();
             moviesList.addAll(savedInstanceState.<Movie>getParcelableArrayList("movies"));
@@ -65,21 +70,25 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sortByPopular:
-                getApiResponse("popular.desc");
+                getApiResponse("popular");
                 return true;
             case R.id.sortByRated:
-                getApiResponse("vote_average.desc");
+                getApiResponse("top_rated");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private boolean checkNetworkConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        return activeNetwork!=null && activeNetwork.isAvailable() && activeNetwork.isConnectedOrConnecting();
+    }
+
     private void getApiResponse(String sortyBy){
-        Log.d("sorting by:- ", sortyBy);
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(this);
-        if(fetchMoviesTask!=null)
-            fetchMoviesTask.execute(sortyBy);
+        fetchMoviesTask.execute(sortyBy);
     }
 
     private void setMoviesView() {

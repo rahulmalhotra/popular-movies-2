@@ -2,6 +2,8 @@ package com.example.rahulmalhotra.popularmovies.PopularMovieUtils;
 
 import android.net.Uri;
 
+import com.example.rahulmalhotra.popularmovies.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -12,13 +14,13 @@ import java.util.Scanner;
 public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
-    private static final String MOVIE_DB_API_URL = "https://api.themoviedb.org/3/discover/movie";
-    private static final String API_KEY = "YOUR_API_KEY_HERE";
+    private static final String MOVIE_DB_API_URL = "https://api.themoviedb.org/3/movie/";
+    private static final String API_KEY = BuildConfig.API_KEY;
 
     public static URL buildUrl(String sortBy) {
 
         Uri builtUri = Uri.parse(MOVIE_DB_API_URL).buildUpon()
-                .appendQueryParameter("sort_by", sortBy)
+                .appendPath(sortBy)
                 .appendQueryParameter("api_key", API_KEY)
                 .build();
 
