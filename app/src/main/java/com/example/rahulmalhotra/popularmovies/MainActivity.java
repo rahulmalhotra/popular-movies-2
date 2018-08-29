@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.ImageAdapter;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
+import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieReview;
 
 import java.util.ArrayList;
 
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
     }
 
     private void getApiResponse(String sortyBy){
-        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(this);
+        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(this, null);
         fetchMoviesTask.execute(sortyBy);
     }
 
