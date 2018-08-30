@@ -21,6 +21,30 @@ public class MovieTrailer implements Parcelable {
         this.type = type;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     protected MovieTrailer(Parcel parcel) {
         id = parcel.readString();
         key = parcel.readString();

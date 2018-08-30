@@ -10,6 +10,14 @@ public class MovieReview implements Parcelable {
     private String id;
     private String url;
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
     public MovieReview(String author, String content, String id, String url) {
         this.author = author;
         this.content = content;

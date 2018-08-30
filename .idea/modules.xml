@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Popular Movies.iml" filepath="$PROJECT_DIR$/Popular Movies.iml" />
       <module fileurl="file://F:/Rahul - Projects/PopularMovies/Popular Movies.iml" filepath="F:/Rahul - Projects/PopularMovies/Popular Movies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Popular Movies.iml" filepath="$PROJECT_DIR$/Popular Movies.iml" />
       <module fileurl="file://$PROJECT_DIR$/PopularMovies.iml" filepath="$PROJECT_DIR$/PopularMovies.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popular-movies-2.iml" filepath="$PROJECT_DIR$/popular-movies-2.iml" />
     </modules>
   </component>
 </project>

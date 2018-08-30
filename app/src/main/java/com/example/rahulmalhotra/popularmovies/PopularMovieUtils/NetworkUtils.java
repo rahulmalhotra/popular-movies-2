@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 
 public class NetworkUtils {
@@ -17,12 +18,16 @@ public class NetworkUtils {
     private static final String MOVIE_DB_API_URL = "https://api.themoviedb.org/3/movie/";
     private static final String API_KEY = BuildConfig.API_KEY;
 
-    public static URL buildUrl(String sortBy) {
+    public static URL buildUrl(String[] stringsToAppend) {
 
-        Uri builtUri = Uri.parse(MOVIE_DB_API_URL).buildUpon()
-                .appendPath(sortBy)
-                .appendQueryParameter("api_key", API_KEY)
-                .build();
+        Uri.Builder builtUriPath = Uri.parse(MOVIE_DB_API_URL).buildUpon();
+
+        for( int i=0; i<stringsToAppend.length; i++) {
+            builtUriPath.appendPath(stringsToAppend[i]);
+        }
+        Uri builtUri = builtUriPath
+                        .appendQueryParameter("api_key", API_KEY)
+                        .build();
 
         URL url = null;
 

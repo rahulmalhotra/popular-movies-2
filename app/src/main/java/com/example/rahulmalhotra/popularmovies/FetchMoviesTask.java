@@ -1,6 +1,7 @@
 package com.example.rahulmalhotra.popularmovies;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -33,8 +34,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, String> {
             return null;
         }
 
-        String sortBy = strings[0];
-        url = NetworkUtils.buildUrl(sortBy);
+        url = NetworkUtils.buildUrl(strings);
         try {
             String apiResponse = NetworkUtils.getResponseFromHttpUrl(url);
             return apiResponse;
@@ -72,6 +72,8 @@ public class FetchMoviesTask extends AsyncTask<String, Void, String> {
                     moviesInterface.getMovies(movieList);
                 }
                 else if(url.toString().contains("reviews")) {
+                    Log.d("baseObj", baseObject.toString());
+                    Log.d("movieURL", url.toString());
                     JSONArray movieReviewsArray = baseObject.getJSONArray("results");
                     for (int i = 0; i <movieReviewsArray.length() ; i++) {
                         JSONObject movieReviewObject = (JSONObject) movieReviewsArray.get(i);

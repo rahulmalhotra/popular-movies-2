@@ -2,9 +2,13 @@ package com.example.rahulmalhotra.popularmovies;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieReviewAdapter;
+import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieTrailerAdapter;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieReview;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieTrailer;
@@ -32,15 +36,26 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
     @BindView(R.id.movieDescription)
     TextView movieDescription;
 
+    @BindView(R.id.movieReviews)
+    RecyclerView movieReviewsRV;
+
+    @BindView(R.id.movieTrailers)
+    RecyclerView movieTrailersRV;
+
     private Movie movie;
+    private MovieReviewAdapter movieReviewAdapter;
+    private MovieTrailerAdapter movieTrailerAdapter;
+    private ArrayList<MovieReview> movieReviewArrayList;
+    private ArrayList<MovieTrailer> movieTrailerArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         movie = getIntent().getParcelableExtra("movie");
-        fetchTrailersAndReviews(movie);
         ButterKnife.bind(this);
+        setMovieReviewAdapter(null);
+        fetchTrailersAndReviews(movie);
         movieTitle.setText(movie.getOriginalTitle());
         movieDate.setText("Release Date: \n" + movie.getReleaseDate());
         Picasso.with(this).load(movie.getPosterPath()).into(movieImage);
@@ -48,21 +63,44 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
         movieDescription.setText(movie.getOverview());
     }
 
+    private void setMovieReviewAdapter(ArrayList<MovieReview> movieReviewArrayList) {
+        if(movieReviewArrayList==null)
+            movieReviewArrayList = new ArrayList<MovieReview>();
+        movieReviewsRV.removeAllViewsInLayout();
+        movieReviewAdapter = new MovieReviewAdapter(movieReviewArrayList);
+        movieReviewsRV.setAdapter(movieReviewAdapter);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        movieReviewsRV.setLayoutManager(manager);
+        movieReviewsRV.setHasFixedSize(true);
+    }
+
+    private void setMovieTrailerAdapter(ArrayList<MovieTrailer> movieTrailerArrayList) {
+        if(movieTrailerArrayList==null)
+            movieTrailerArrayList = new ArrayList<MovieTrailer>();
+        movieTrailersRV.removeAllViewsInLayout();
+        movieTrailerAdapter = new MovieTrailerAdapter(movieTrailerArrayList);
+        movieTrailersRV.setAdapter(movieTrailerAdapter);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        movieTrailersRV.setLayoutManager(manager);
+        movieTrailersRV.setHasFixedSize(true);
+    }
+
     private void fetchTrailersAndReviews(Movie movie) {
         String movieId = String.valueOf(movie.getId());
         FetchMoviesTask fetchMoviesTask1 = new FetchMoviesTask(null, this);
-        fetchMoviesTask1.execute(movieId + "/reviews");
+        fetchMoviesTask1.execute(movieId, "reviews");
         FetchMoviesTask fetchMoviesTask2 = new FetchMoviesTask(null, this);
-        fetchMoviesTask2.execute(movieId + "/videos");
+        fetchMoviesTask2.execute(movieId, "videos");
     }
 
     @Override
     public void getMovieReviews(ArrayList<MovieReview> movieReviews) {
-        // Set the movie reviews
+        setMovieReviewAdapter(movieReviews);
     }
 
     @Override
     public void getMovieTrailers(ArrayList<MovieTrailer> movieTrailers) {
-        // Set the movie trailers
+        setMovieTrailerAdapter(movieTrailers);
     }
 }
