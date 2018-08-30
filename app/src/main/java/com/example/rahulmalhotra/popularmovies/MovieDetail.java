@@ -4,8 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieReviewAdapter;
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieTrailerAdapter;
@@ -47,6 +51,24 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
     private MovieTrailerAdapter movieTrailerAdapter;
     private ArrayList<MovieReview> movieReviewArrayList;
     private ArrayList<MovieTrailer> movieTrailerArrayList;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.bookmark:
+                Toast.makeText(this, "Movie Bookmarked", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
