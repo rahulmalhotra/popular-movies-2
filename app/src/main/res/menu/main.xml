@@ -3,4 +3,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/sortByPopular" android:title="@string/sortByMostPopular" app:showAsAction="never" />
     <item android:id="@+id/sortByRated" android:title="@string/sortByTopRated" app:showAsAction="never" />
+    <item android:id="@+id/bookmarkedMovies" android:title="@string/bookmarked" app:showAsAction="never" />
 </menu>

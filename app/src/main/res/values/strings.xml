@@ -7,4 +7,5 @@
     <string name="movieImage">Movie Image</string>
     <string name="sortByMostPopular">Sort By Most Popular</string>
     <string name="sortByTopRated">Sort By Top Rated</string>
+    <string name="bookmarked">Bookmarked Movies</string>
 </resources>

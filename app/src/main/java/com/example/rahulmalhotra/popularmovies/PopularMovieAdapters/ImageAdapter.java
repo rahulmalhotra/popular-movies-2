@@ -9,16 +9,21 @@ import android.widget.ImageView;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<Movie> movies;
+    private List<Movie> movies;
 
-    public ImageAdapter(Context context, ArrayList<Movie> moviesList) {
+    public ImageAdapter(Context context, List<Movie> moviesList) {
         mContext = context;
         movies = moviesList;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+        notifyDataSetChanged();
     }
 
     @Override

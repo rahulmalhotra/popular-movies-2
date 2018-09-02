@@ -1,9 +1,14 @@
 package com.example.rahulmalhotra.popularmovies;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.nfc.Tag;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +21,13 @@ import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieTrailer
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.Movie;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieReview;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieTrailer;
+import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.MovieExecutors;
+import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.MovieViewModel;
+import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.MovieViewModelFactory;
+import com.example.rahulmalhotra.popularmovies.PopularMoviesDB.MovieDatabase;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -46,7 +57,10 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
     @BindView(R.id.movieTrailers)
     RecyclerView movieTrailersRV;
 
+    private MovieDatabase movieDatabaseInstance;
+    private String TAG = MovieDetail.class.getSimpleName();
     private Movie movie;
+    private Boolean movieBookmarked;
     private MovieReviewAdapter movieReviewAdapter;
     private MovieTrailerAdapter movieTrailerAdapter;
     private ArrayList<MovieReview> movieReviewArrayList;
@@ -56,17 +70,46 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.bookmark:
-                Toast.makeText(this, "Movie Bookmarked", Toast.LENGTH_SHORT).show();
+                if(!movieBookmarked) {
+                    insertMovie();
+                    item.setIcon(R.drawable.bookmark);
+                } else {
+                    deleteMovie();
+                    item.setIcon(R.drawable.bookmarkempty);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void insertMovie() {
+        MovieExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+//            movie.setMovieId(null);
+                movieDatabaseInstance.movieDao().insertFavoriteMovie(movie);
+            }
+        });
+    }
+
+    private void deleteMovie() {
+        MovieExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+            movieDatabaseInstance.movieDao().deleteFavoriteMovie(movie);
+//            movie.setMovieId(null);
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detail, menu);
+        if(movie!= null && movie.getMovieId() != null) {
+            menu.findItem(R.id.bookmark).setIcon(R.drawable.bookmark);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -83,6 +126,25 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
         Picasso.with(this).load(movie.getPosterPath()).into(movieImage);
         movieRating.setText("Rating: \n" + String.valueOf(movie.getVoteAverage()));
         movieDescription.setText(movie.getOverview());
+        movieDatabaseInstance = MovieDatabase.getInstance(getApplicationContext());
+        initializeMovieViewModel();
+    }
+
+    private void initializeMovieViewModel() {
+        MovieViewModelFactory movieViewModelFactory = new MovieViewModelFactory(movieDatabaseInstance, movie.getId());
+        MovieViewModel movieViewModel = ViewModelProviders.of(this, movieViewModelFactory).get(MovieViewModel.class);
+        movieViewModel.getMovieLiveData().observe(this, new Observer<Movie>() {
+            @Override
+            public void onChanged(@Nullable Movie bookmarkedMovie) {
+                Log.d("bmk", String.valueOf(bookmarkedMovie));
+                if(bookmarkedMovie!=null) {
+                    movie = bookmarkedMovie;
+                    movieBookmarked = true;
+                } else {
+                    movieBookmarked = false;
+                }
+            }
+        });
     }
 
     private void setMovieReviewAdapter(ArrayList<MovieReview> movieReviewArrayList) {
