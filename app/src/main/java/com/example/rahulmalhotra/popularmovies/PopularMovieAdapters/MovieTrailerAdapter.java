@@ -49,6 +49,17 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
                 view.getContext().startActivity(intent);
             }
         });
+        holder.shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TITLE, "Share Trailer");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, movieTrailerArrayList.get(position).getName());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Hey, watch this amazing movie trailer:- https://www.youtube.com/watch?v=" + movieTrailerArrayList.get(position).getKey());
+                view.getContext().startActivity(Intent.createChooser(shareIntent, "Share via"));
+                }
+        });
         holder.trailerSize.setText(String.valueOf(movieTrailerArrayList.get(position).getSize()) + "px");
     }
 
@@ -67,6 +78,8 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         @BindView(R.id.playButton)
         ImageButton playButton;
         @BindView(R.id.trailerSize) TextView trailerSize;
+        @BindView(R.id.shareButton)
+        ImageButton shareButton;
 
         public MovieViewHolder(View itemView) {
             super(itemView);

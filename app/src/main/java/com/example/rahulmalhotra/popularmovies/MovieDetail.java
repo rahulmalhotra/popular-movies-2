@@ -2,12 +2,16 @@ package com.example.rahulmalhotra.popularmovies;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
 import android.nfc.Tag;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -122,9 +126,32 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
         setMovieReviewAdapter(null);
         fetchTrailersAndReviews(movie);
         movieTitle.setText(movie.getOriginalTitle());
-        movieDate.setText("Release Date: \n" + movie.getReleaseDate());
         Picasso.with(this).load(movie.getPosterPath()).into(movieImage);
-        movieRating.setText("Rating: \n" + String.valueOf(movie.getVoteAverage()));
+
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        SpannableString releaseDateText= new SpannableString("Release Date: \n");
+        releaseDateText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, releaseDateText.length(), 0);
+        builder.append(releaseDateText);
+
+        SpannableString releaseDate= new SpannableString(movie.getReleaseDate());
+        releaseDate.setSpan(new ForegroundColorSpan(Color.parseColor("#FF4081")), 0, releaseDate.length(), 0);
+        builder.append(releaseDate);
+
+        movieDate.setText( builder, TextView.BufferType.SPANNABLE);
+
+        builder.clear();
+
+        SpannableString ratingText= new SpannableString("Rating: \n");
+        ratingText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, ratingText.length(), 0);
+        builder.append(ratingText);
+
+        SpannableString rating= new SpannableString(String.valueOf(movie.getVoteAverage()));
+        rating.setSpan(new ForegroundColorSpan(Color.parseColor("#FF4081")), 0, rating.length(), 0);
+        builder.append(rating);
+
+        movieRating.setText(builder, TextView.BufferType.SPANNABLE);
+
         movieDescription.setText(movie.getOverview());
         movieDatabaseInstance = MovieDatabase.getInstance(getApplicationContext());
         initializeMovieViewModel();

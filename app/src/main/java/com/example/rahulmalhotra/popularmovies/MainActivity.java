@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList("movies", moviesList);
+        if(bookmarkedMoviesShown)
+            outState.putParcelableArrayList("movies", bookmarkedMoviesList);
+        else
+            outState.putParcelableArrayList("movies", moviesList);
         super.onSaveInstanceState(outState);
     }
 
