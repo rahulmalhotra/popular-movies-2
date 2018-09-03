@@ -42,10 +42,13 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if(bookmarkedMoviesShown)
+        if(bookmarkedMoviesShown) {
+            outState.putBoolean("bookmarkedMoviesShown", bookmarkedMoviesShown);
             outState.putParcelableArrayList("movies", bookmarkedMoviesList);
-        else
+        }
+        else {
             outState.putParcelableArrayList("movies", moviesList);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -61,11 +64,13 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
         imageAdapter = new ImageAdapter(this, moviesList);
         moviesView.setAdapter(imageAdapter);
         if(savedInstanceState == null || !savedInstanceState.containsKey("movies")) {
+            Log.d("MyTag","Getting Bookmarked movies from saved instance state");
             if(checkNetworkConnection())
                 getApiResponse("popular");
             else
                 Toast.makeText(this, "Network Connection not available", Toast.LENGTH_SHORT).show();
         } else {
+            bookmarkedMoviesShown = savedInstanceState.getBoolean("bookmarkedMoviesShown");
             moviesList.clear();
             moviesList.addAll(savedInstanceState.<Movie>getParcelableArrayList("movies"));
             setMoviesView();
@@ -127,7 +132,9 @@ public class MainActivity extends AppCompatActivity implements MoviesInterface{
         moviesLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
+                Log.d("MyTag","Bookmarked Movies Changed");
                 bookmarkedMoviesList = new ArrayList<>(movies);
+                Log.d("MyTag","Bookmarked Movies Shown" + String.valueOf(bookmarkedMoviesShown));
                 if(bookmarkedMoviesShown) {
                     imageAdapter.setMovies(bookmarkedMoviesList);
                 }
