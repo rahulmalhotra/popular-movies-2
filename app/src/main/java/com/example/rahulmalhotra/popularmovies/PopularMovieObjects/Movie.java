@@ -3,12 +3,9 @@ package com.example.rahulmalhotra.popularmovies.PopularMovieObjects;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
-
-import java.util.List;
 
 @Entity(tableName = "movie")
 public class Movie implements Parcelable {

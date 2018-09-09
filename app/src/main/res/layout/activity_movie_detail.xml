@@ -110,7 +110,7 @@
             android:layout_marginTop="8dp"
             android:textSize="20sp"
             android:textColor="@color/colorAccent"
-            android:text="Trailers"
+            android:text="@string/trailers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/movieImage"
             app:layout_constraintTop_toBottomOf="@+id/movieDescription" />
@@ -139,7 +139,7 @@
             android:layout_marginTop="8dp"
             android:textColor="@color/colorAccent"
             android:textSize="20sp"
-            android:text="Reviews"
+            android:text="@string/reviews"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/movieImage"
             app:layout_constraintTop_toBottomOf="@+id/movieTrailers" />

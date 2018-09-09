@@ -1,6 +1,5 @@
 package com.example.rahulmalhotra.popularmovies.PopularMovieAdapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieReview;
 import com.example.rahulmalhotra.popularmovies.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

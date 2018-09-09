@@ -3,7 +3,6 @@ package com.example.rahulmalhotra.popularmovies;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieReviewAdapter;
 import com.example.rahulmalhotra.popularmovies.PopularMovieAdapters.MovieTrailerAdapter;
@@ -30,8 +28,6 @@ import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.MovieViewModel;
 import com.example.rahulmalhotra.popularmovies.PopularMovieUtils.MovieViewModelFactory;
 import com.example.rahulmalhotra.popularmovies.PopularMoviesDB.MovieDatabase;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -176,7 +172,7 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
 
     private void setMovieReviewAdapter(ArrayList<MovieReview> movieReviewArrayList) {
         if(movieReviewArrayList==null)
-            movieReviewArrayList = new ArrayList<MovieReview>();
+            movieReviewArrayList = new ArrayList<>();
         movieReviewsRV.removeAllViewsInLayout();
         movieReviewAdapter = new MovieReviewAdapter(movieReviewArrayList);
         movieReviewsRV.setAdapter(movieReviewAdapter);
@@ -187,7 +183,7 @@ public class MovieDetail extends AppCompatActivity implements MoviesDetailInterf
 
     private void setMovieTrailerAdapter(ArrayList<MovieTrailer> movieTrailerArrayList) {
         if(movieTrailerArrayList==null)
-            movieTrailerArrayList = new ArrayList<MovieTrailer>();
+            movieTrailerArrayList = new ArrayList<>();
         movieTrailersRV.removeAllViewsInLayout();
         movieTrailerAdapter = new MovieTrailerAdapter(movieTrailerArrayList);
         movieTrailersRV.setAdapter(movieTrailerAdapter);

@@ -17,23 +17,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Trailer Title" />
+                android:text="@string/trailerTitle" />
             <TextView
                 android:id="@+id/trailerType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15dp"
-                android:text="Type" />
+                android:textSize="15sp"
+                android:text="@string/type" />
             <TextView
                 android:id="@+id/trailerSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
-                android:textSize="15dp"
-                android:text="Size" />
+                android:textSize="15sp"
+                android:text="@string/size" />
         </LinearLayout>
         <ImageButton
             android:id="@+id/playButton"
@@ -41,6 +41,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:src="@drawable/play"
+            android:contentDescription="@string/playImage"
             android:background="@color/colorWhite"
             android:scaleType="fitCenter"
             />
@@ -50,6 +51,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:src="@drawable/share"
+            android:contentDescription="@string/shareImage"
             android:background="@color/colorWhite"
             android:scaleType="fitCenter"
             />

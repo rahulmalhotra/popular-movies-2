@@ -6,11 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.rahulmalhotra.popularmovies.MainActivity;
 import com.example.rahulmalhotra.popularmovies.PopularMovieObjects.MovieTrailer;
 import com.example.rahulmalhotra.popularmovies.R;
 
@@ -60,7 +58,7 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
                 view.getContext().startActivity(Intent.createChooser(shareIntent, "Share via"));
                 }
         });
-        holder.trailerSize.setText(String.valueOf(movieTrailerArrayList.get(position).getSize()) + "px");
+        holder.trailerSize.setText(String.valueOf(movieTrailerArrayList.get(position).getSize()) + R.string.pixel);
     }
 
     @Override
